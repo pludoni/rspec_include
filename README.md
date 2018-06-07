@@ -37,3 +37,11 @@ What's done:
   * nf -> rspec --next-failure
   * of -> rspec --only-failures
 
+* Shared Contexts that can be included on demand:
+  * include_context 'mails' - For working with ActionMailer::Base.deliveries
+    * mails_with(to: '')  - Filter mails sent to a user
+    * last_mail  == ActionMailer::Base.deliveries.last
+    * mails  == ActionMailer::Base.deliveries
+    * extract_link_from(last_mail, link: 0)  - gets you the link (without protocol + host) of the first link in the last mail with a html body
+  * include_context 'active_job_inline'
+    * all ActiveJobs will be run immediately in this group
