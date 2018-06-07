@@ -1,39 +1,39 @@
 # PludoniRspec
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pludoni_rspec`. To experiment with that code, run `bin/console` for an interactive prompt.
+pludoni GmbH's RSpec helper for modern Rails apps (+5.1, RSpec > 3.5)
 
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
+Just include in your spec_helper / rails_helper
 
 ```ruby
-gem 'pludoni_rspec'
+ENV["RAILS_ENV"] ||= 'test'
+
+require 'pludoni_rspec'
+PludoniRspec.run
+load 'spec/fabricators.rb'
 ```
 
-And then execute:
+What's done:
 
-    $ bundle
+* Maintain Test Schema
+* spec/support/**.rb will be loaded for overriding
+* freeze_time: '' Tag for examples. If Timecop is available, this will be used, otherwise Rails 5.x default travel_to
+* Simplecov coverage started at beginning
+* Capybara+Chromedriver config with Chromedriver, Headless (will probably not work on OSX though)
+  *  Available Helper:
+    * console_logs
+    * drop_in_dropzone(file_path)
+    * screenshot
+    * skip_confirm(page)
+    * in_browser('user_1') do ... end
 
-Or install it yourself as:
+* Rspec configs:
+  * tmp/rspec.failed.txt to enable --next-failure / --only-failures switches
+  * clears ActionMailer deliveries before each scenario
+  * default backtrace without rails, fabication, grape, rack
+  * fixtures in spec/fixtures
+  * Transactional Fixtures enabled - no DatabaseCleaner needed anymore
+* VCR Config sensible VCR is available (not required by Gem)
+* executable: nf and of
+  * nf -> rspec --next-failure
+  * of -> rspec --only-failures
 
-    $ gem install pludoni_rspec
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/zealot128/pludoni_rspec.
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

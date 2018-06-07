@@ -2,12 +2,7 @@ require 'capybara'
 require 'chromedriver/helper'
 require 'selenium-webdriver'
 require 'headless'
-
 require "selenium/webdriver"
-
-Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome, timeout: 300)
-end
 
 module SystemTestChromeHelper
   def console_logs
@@ -32,8 +27,8 @@ module SystemTestChromeHelper
     JS
   end
 
-  def screenshot
-    page.save_screenshot(Rails.root.join('public/screenshots/1.png'))
+  def screenshot(path = '1')
+    page.save_screenshot(Rails.root.join("public/screenshots/#{1.png}.png"))
   end
 
   # skip any confirm: "Really delete?"
@@ -49,6 +44,11 @@ module SystemTestChromeHelper
   end
 end
 
+
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome, timeout: 300)
+end
+
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
     'chromeOptions' => {
@@ -59,13 +59,6 @@ Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.new app,
     browser: :chrome,
     desired_capabilities: capabilities
-end
-
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, timeout: ENV['CI'] ? 60 : 30, js_errors: true)
-end
-Capybara.register_driver :poltergeist_debug do |app|
-  Capybara::Poltergeist::Driver.new(app, timeout: 300, js_errors: true)
 end
 
 RSpec.configure do |c|
