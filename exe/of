@@ -1,2 +1,1 @@
-#!/bin/bash
-bundle exec rspec --only-failures "$@"
+exec *(["rspec", "--only-failures"] + ARGV)

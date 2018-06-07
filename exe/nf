@@ -1,2 +1,1 @@
-#!/bin/bash
-bundle exec rspec --next-failure "$@"
+exec *(["rspec", "--next-failure"] + ARGV)

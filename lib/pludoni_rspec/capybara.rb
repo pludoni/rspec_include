@@ -1,8 +1,9 @@
-require 'capybara'
-require 'chromedriver/helper'
-require 'selenium-webdriver'
-require 'headless'
+require "capybara"
+require "chromedriver/helper"
+require "selenium-webdriver"
+require "headless"
 require "selenium/webdriver"
+require "puma"
 
 module SystemTestChromeHelper
   def console_logs
@@ -44,7 +45,6 @@ module SystemTestChromeHelper
   end
 end
 
-
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, timeout: 300)
 end
@@ -62,13 +62,21 @@ Capybara.register_driver :headless_chrome do |app|
 end
 
 RSpec.configure do |c|
+  c.before(:all, js: true) do
+    # disable puma output
+    Capybara.server = :puma, { Silent: true }
+  end
   c.around(:all, js: true) do |ex|
     begin
-      @headless = Headless.new
-      @headless.start
+      if !@headless and RbConfig::CONFIG['host_os']['linux']
+        @headless = Headless.new(destroy_at_exit: true, reuse: true)
+        @headless.start
+      end
+      # @headless = Headless.new
+      # @headless.start
       ex.run
     ensure
-      @headless.destroy
+      @headless.destroy if @headless
     end
   end
 end
@@ -79,3 +87,4 @@ RSpec.configure do |config|
   config.include SystemTestChromeHelper, type: :feature
   config.include SystemTestChromeHelper, type: :system
 end
+Capybara.default_max_wait_time = 60
