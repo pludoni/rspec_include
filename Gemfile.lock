@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pludoni_rspec (0.2.0)
+    pludoni_rspec (0.3.0)
       capybara (>= 3.0.0)
       chromedriver-helper (>= 1.2.0)
       headless (>= 2.3.1)
