@@ -22,7 +22,7 @@ module PludoniRspec::SystemTestChromeHelper
   end
 
   def screenshot(path = '1')
-    page.save_screenshot(Rails.root.join("public/screenshots/#{1.png}.png"))
+    page.save_screenshot(Rails.root.join("public/screenshots/#{path}.png"))
   end
 
   # skip any confirm: "Really delete?"
@@ -37,4 +37,3 @@ module PludoniRspec::SystemTestChromeHelper
     Capybara.session_name = old_session
   end
 end
-

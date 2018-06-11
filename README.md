@@ -9,7 +9,6 @@ ENV["RAILS_ENV"] ||= 'test'
 
 require 'pludoni_rspec'
 PludoniRspec.run
-load 'spec/fabricators.rb'
 ```
 
 What's done:
@@ -36,6 +35,7 @@ What's done:
 * executable: nf and of
   * nf -> rspec --next-failure
   * of -> rspec --only-failures
+* Devise Test helpers loaded, if Devise is available, and included in Controller specs
 
 * Shared Contexts that can be included on demand:
   * include_context 'mails' - For working with ActionMailer::Base.deliveries

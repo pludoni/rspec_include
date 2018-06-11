@@ -24,6 +24,9 @@ module PludoniRspec
     if defined?(VCR)
       require 'pludoni_rspec/vcr'
     end
+    if defined?(Devise)
+      require 'pludoni_rspec/devise'
+    end
     Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
     ActiveRecord::Migration.maintain_test_schema!
   end
