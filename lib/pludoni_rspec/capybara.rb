@@ -33,11 +33,12 @@ RSpec.configure do |c|
         @headless = Headless.new(destroy_at_exit: true, reuse: true)
         @headless.start
       end
-      # @headless = Headless.new
-      # @headless.start
       ex.run
     ensure
-      @headless.destroy if @headless
+      if @headless and PludoniRspec::Config.destroy_headless
+        puts "DESTROY HEADLESS"
+        @headless.destroy
+      end
     end
   end
 end

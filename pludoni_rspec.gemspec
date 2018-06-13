@@ -23,9 +23,10 @@ Gem::Specification.new do |spec|
   # spec.add_dependency "vcr", ">= 3.0.0"
   spec.add_dependency 'capybara', ">= 3.0.0"
   spec.add_dependency 'chromedriver-helper', ">= 1.2.0"
+  spec.add_dependency 'fuubar', '>= 2.3.1'
   spec.add_dependency 'headless', ">= 2.3.1"
-  spec.add_dependency 'puma'
   spec.add_dependency 'pry-rails'
+  spec.add_dependency 'puma'
   spec.add_dependency 'selenium-webdriver', ">= 3.12.0"
   spec.add_dependency 'simplecov', ">= 0.16.1"
   spec.add_development_dependency "bundler", "~> 1.16"

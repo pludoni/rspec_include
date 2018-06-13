@@ -6,15 +6,18 @@ module PludoniRspec
     class << self
       attr_accessor :chrome_driver_version
       attr_accessor :chrome_window_size
+      attr_accessor :destroy_headless
     end
     self.chrome_driver_version = "2.36"
     self.chrome_window_size = '1600,1200'
+    self.destroy_headless = true
   end
   def self.run
     ENV["RAILS_ENV"] ||= 'test'
     coverage!
     require 'pry'
     require File.expand_path("config/environment", Dir.pwd)
+    abort("The Rails environment is running in production mode!") if Rails.env.production?
     require 'rspec/rails'
 
     require 'pludoni_rspec/spec_helper'
