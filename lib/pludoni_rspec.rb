@@ -7,10 +7,12 @@ module PludoniRspec
       attr_accessor :chrome_driver_version
       attr_accessor :chrome_window_size
       attr_accessor :destroy_headless
+      attr_accessor :wrap_js_spec_in_headless
     end
     self.chrome_driver_version = "2.36"
     self.chrome_window_size = '1600,1200'
     self.destroy_headless = true
+    self.wrap_js_spec_in_headless = RbConfig::CONFIG['host_os']['linux']
   end
   def self.run
     ENV["RAILS_ENV"] ||= 'test'

@@ -29,7 +29,7 @@ RSpec.configure do |c|
   end
   c.around(:all, js: true) do |ex|
     begin
-      if !@headless and RbConfig::CONFIG['host_os']['linux']
+      if !@headless and PludoniRspec::Config.wrap_js_spec_in_headless
         @headless = Headless.new(destroy_at_exit: true, reuse: true)
         @headless.start
       end
@@ -51,4 +51,4 @@ RSpec.configure do |config|
   config.include PludoniRspec::SystemTestChromeHelper, type: :feature
   config.include PludoniRspec::SystemTestChromeHelper, type: :system
 end
-Capybara.default_max_wait_time = 60
+Capybara.default_max_wait_time = 30
