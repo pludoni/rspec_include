@@ -5,14 +5,16 @@ module PludoniRspec
   class Config
     class << self
       attr_accessor :chrome_driver_version
-      attr_accessor :chrome_window_size
       attr_accessor :destroy_headless
       attr_accessor :wrap_js_spec_in_headless
+      attr_accessor :chrome_arguments
+      attr_accessor :capybara_timeout
     end
     self.chrome_driver_version = "2.36"
-    self.chrome_window_size = '1600,1200'
     self.destroy_headless = true
     self.wrap_js_spec_in_headless = RbConfig::CONFIG['host_os']['linux']
+    self.chrome_arguments = ['headless', 'disable-gpu', "window-size=1600,1200", 'no-sandbox', 'disable-dev-shm-usage', 'lang=de']
+    self.capybara_timeout = ENV['CI'] == '1' ? 30 : 5
   end
   def self.run
     ENV["RAILS_ENV"] ||= 'test'

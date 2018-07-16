@@ -13,7 +13,7 @@ end
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
     'chromeOptions' => {
-      args: ['headless', 'disable-gpu', "window-size=#{PludoniRspec::Config.chrome_window_size}", 'no-sandbox']
+      args: PludoniRspec::Config.chrome_arguments
     }
   )
 
@@ -36,7 +36,6 @@ RSpec.configure do |c|
       ex.run
     ensure
       if @headless and PludoniRspec::Config.destroy_headless
-        puts "DESTROY HEADLESS"
         @headless.destroy
       end
     end
@@ -51,4 +50,4 @@ RSpec.configure do |config|
   config.include PludoniRspec::SystemTestChromeHelper, type: :feature
   config.include PludoniRspec::SystemTestChromeHelper, type: :system
 end
-Capybara.default_max_wait_time = 30
+Capybara.default_max_wait_time = PludoniRspec::Config.capybara_timeout
