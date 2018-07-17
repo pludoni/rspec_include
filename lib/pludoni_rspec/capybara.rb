@@ -23,7 +23,9 @@ end
 
 Capybara.register_driver :headless_firefox do |app|
   options = ::Selenium::WebDriver::Firefox::Options.new
-  options.args += PludoniRspec::Config.firefox_arguments
+  PludoniRspec::Config.firefox_arguments.each do |a|
+    options.args << a
+  end
   Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
 end
 
