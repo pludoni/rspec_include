@@ -1,5 +1,7 @@
 # PludoniRspec
 
+[![Gem Version](https://badge.fury.io/rb/pludoni_rspec.svg)](https://badge.fury.io/rb/pludoni_rspec)
+
 pludoni GmbH's RSpec helper for modern Rails apps (+5.1, RSpec > 3.5)
 
 Just include in your spec_helper / rails_helper

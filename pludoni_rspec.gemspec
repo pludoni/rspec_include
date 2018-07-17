@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # spec.add_dependency "vcr", ">= 3.0.0"
+  spec.add_dependency "geckodriver-helper", ">= 0.21.0"
   spec.add_dependency 'capybara', ">= 3.0.0"
   spec.add_dependency 'chromedriver-helper', ">= 1.2.0"
   spec.add_dependency 'fuubar', '>= 2.3.1'
