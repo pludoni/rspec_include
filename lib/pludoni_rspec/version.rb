@@ -1,3 +1,3 @@
 module PludoniRspec
-  VERSION = "0.6.0.rc1"
+  VERSION = "0.7.0".freeze
 end

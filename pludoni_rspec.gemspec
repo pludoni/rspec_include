@@ -21,13 +21,14 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # spec.add_dependency "vcr", ">= 3.0.0"
-  spec.add_dependency "geckodriver-helper", ">= 0.23.0"
+  #spec.add_dependency "geckodriver-helper", ">= 0.23.0"
   spec.add_dependency 'capybara', ">= 3.13.2"
   spec.add_dependency 'fuubar', '>= 2.3.1'
   spec.add_dependency 'headless', ">= 2.3.1"
   spec.add_dependency 'pry-rails'
   spec.add_dependency 'puma'
-  spec.add_dependency 'selenium-webdriver', ">= 3.141.0"
+  #spec.add_dependency 'selenium-webdriver', ">= 3.141.0"
+  spec.add_dependency 'apparition'
   spec.add_dependency 'simplecov', ">= 0.16.1"
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"

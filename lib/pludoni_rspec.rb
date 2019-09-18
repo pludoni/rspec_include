@@ -11,6 +11,7 @@ module PludoniRspec
       attr_accessor :capybara_timeout
       attr_accessor :capybara_driver
       attr_accessor :firefox_arguments
+      attr_accessor :apparition_arguments
     end
     self.chrome_driver_version = "2.36"
     self.destroy_headless = true
@@ -18,7 +19,8 @@ module PludoniRspec
     self.chrome_arguments = ['headless', 'disable-gpu', "window-size=1600,1200", 'no-sandbox', 'disable-dev-shm-usage', 'lang=de']
     self.capybara_timeout = ENV['CI'] == '1' ? 30 : 5
     self.firefox_arguments = ['--headless', '--window-size=1600,1200']
-    self.capybara_driver = :headless_chrome
+    self.apparition_arguments = { js_errors: false, screen_size: [1600, 1200], window_size: [1600, 1200], browser_logger: File.open(File::NULL, 'w') }
+    self.capybara_driver = :apparition
   end
   def self.run
     ENV["RAILS_ENV"] ||= 'test'
@@ -29,7 +31,11 @@ module PludoniRspec
     require 'rspec/rails'
 
     require 'pludoni_rspec/spec_helper'
-    require 'pludoni_rspec/capybara'
+    if PludoniRspec::Config.capybara_driver == :apparition
+      require 'pludoni_rspec/apparition'
+    else
+      require 'pludoni_rspec/capybara'
+    end
     require 'pludoni_rspec/freeze_time'
     require 'pludoni_rspec/shared_context'
     if defined?(VCR)
