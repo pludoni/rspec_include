@@ -8,9 +8,6 @@ Capybara.register_driver :apparition_debug do |app|
   Capybara::Apparition::Driver.new(app, js_errors: true, browser_options: { 'no-sandbox' => true })
 end
 Capybara.register_driver :apparition do |app|
-  if ENV['CI']
-    options[:browser_options] = { 'no-sandbox' => true }
-  end
   Capybara::Apparition::Driver.new(app, PludoniRspec::Config.apparition_arguments)
 end
 Capybara.javascript_driver = :apparition
