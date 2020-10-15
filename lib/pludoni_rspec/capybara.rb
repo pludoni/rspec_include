@@ -1,12 +1,15 @@
 require "capybara"
 require "selenium-webdriver"
 require "headless"
-require "selenium/webdriver"
 require "puma"
 require 'pludoni_rspec/system_test_chrome_helper'
-require 'geckodriver/helper'
+require 'webdrivers/geckodriver'
 
 RSpec.configure do |c|
+  c.before(:all, js: true) do
+    Webdrivers.cache_time = 86_400
+    Webdrivers::Geckodriver.update
+  end
   c.include PludoniRspec::SystemTestChromeHelper, type: :feature
   c.include PludoniRspec::SystemTestChromeHelper, type: :system
   c.before(:all, js: true) do

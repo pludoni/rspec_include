@@ -3,6 +3,13 @@ RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
+  config.include RSpec::Rails::RequestExampleGroup, type: :request, file_path: /spec\/api/
+  config.before do
+    I18n.locale = I18n.default_locale
+    if defined?(Fabrication)
+      Fabrication::Sequencer.reset
+    end
+  end
 
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
@@ -21,4 +28,11 @@ RSpec.configure do |config|
   config.filter_gems_from_backtrace("fabrication")
   config.filter_gems_from_backtrace("grape")
   config.filter_gems_from_backtrace("rack")
+
+  config.around(:each, :timeout) do |example|
+    time = 10 unless time.kind_of?(Numeric)
+    Timeout.timeout(time) do
+      example.run
+    end
+  end
 end

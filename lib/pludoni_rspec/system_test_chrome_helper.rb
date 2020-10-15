@@ -36,4 +36,26 @@ module PludoniRspec::SystemTestChromeHelper
     yield
     Capybara.session_name = old_session
   end
+
+  # wait_until { page.has_content?("Something") }
+  def wait_until(timeout = 10, &blk)
+    end_time       = Time.zone.now + timeout
+    last_exception = nil
+
+    until Time.zone.now >= end_time
+      begin
+        result = yield
+        return result if result
+      rescue RSpec::Expectations::ExpectationNotMetError => ex
+        last_exception = ex
+      end
+
+      sleep 0.01
+    end
+
+    msg = "timed out after #{timeout} seconds"
+    msg << ":\n#{last_exception.message}" if last_exception
+
+    raise msg
+  end
 end

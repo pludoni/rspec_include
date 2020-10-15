@@ -13,14 +13,14 @@ module PludoniRspec
       attr_accessor :firefox_arguments
       attr_accessor :apparition_arguments
     end
-    self.chrome_driver_version = "2.36"
-    self.destroy_headless = true
+    # self.chrome_driver_version = "2.36"
+    self.destroy_headless = false
     self.wrap_js_spec_in_headless = RbConfig::CONFIG['host_os']['linux']
-    self.chrome_arguments = ['headless', 'disable-gpu', "window-size=1600,1200", 'no-sandbox', 'disable-dev-shm-usage', 'lang=de']
+    # self.chrome_arguments = ['headless', 'disable-gpu', "window-size=1600,1200", 'no-sandbox', 'disable-dev-shm-usage', 'lang=de']
     self.capybara_timeout = ENV['CI'] == '1' ? 30 : 5
     self.firefox_arguments = ['--headless', '--window-size=1600,1200']
     self.apparition_arguments = { js_errors: false, screen_size: [1600, 1200], window_size: [1600, 1200], browser_logger: File.open(File::NULL, 'w') }
-    self.capybara_driver = :apparition
+    self.capybara_driver = :firefox
   end
   def self.run
     ENV["RAILS_ENV"] ||= 'test'
@@ -32,6 +32,7 @@ module PludoniRspec
 
     require 'pludoni_rspec/spec_helper'
     if PludoniRspec::Config.capybara_driver == :apparition
+      puts "Apparition is deprecated for us, use Firefox"
       require 'pludoni_rspec/apparition'
     else
       require 'pludoni_rspec/capybara'
@@ -49,7 +50,17 @@ module PludoniRspec
   end
 
   def self.coverage!
+    if File.exists?('coverage/.resultset.json') && (
+        File.ctime('coverage/.resultset.json') < (Time.now - 900) ||
+        (JSON.parse(File.read('coverage/.resultset.json')).keys.length > 4)
+    )
+      File.unlink('coverage/.resultset.json')
+      if File.exists?('coverage/.resultset.json.lock')
+        File.unlink('coverage/.resultset.json.lock')
+      end
+    end
     require 'simplecov'
+    SimpleCov.command_name "spec:#{Time.now.to_i}"
     SimpleCov.start 'rails' do
       add_filter do |source_file|
         source_file.lines.count < 10
