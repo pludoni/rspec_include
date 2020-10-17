@@ -1,4 +1,5 @@
 require "pludoni_rspec/version"
+require 'json'
 
 # rubocop:disable Rails/FilePath
 module PludoniRspec
