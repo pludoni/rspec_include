@@ -30,8 +30,14 @@ Gem::Specification.new do |spec|
   # We don't need selenium, but rails system specs checks for availability
   spec.add_dependency 'selenium-webdriver', ">= 3.141.0"
   spec.add_dependency "webdrivers", ">= 4.0.0"
-  # spec.add_dependency 'apparition'
+  spec.add_dependency 'apparition'
   spec.add_dependency 'simplecov', ">= 0.16.1"
+  spec.add_dependency "simplecov-cobertura"
+  spec.add_dependency "rspec_junit_formatter"
+  spec.add_dependency 'rubocop'
+  spec.add_dependency 'rubocop-rails'
+  spec.add_dependency 'rubocop-performance'
+  spec.add_dependency 'rubocop-rspec'
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 13.0"
 end

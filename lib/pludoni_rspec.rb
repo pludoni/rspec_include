@@ -21,7 +21,7 @@ module PludoniRspec
     self.capybara_timeout = ENV['CI'] == '1' ? 30 : 5
     self.firefox_arguments = ['--headless', '--window-size=1600,1200']
     self.apparition_arguments = { js_errors: false, screen_size: [1600, 1200], window_size: [1600, 1200], browser_logger: File.open(File::NULL, 'w') }
-    self.capybara_driver = :firefox
+    self.capybara_driver = :apparition
   end
   def self.run
     ENV["RAILS_ENV"] ||= 'test'
@@ -33,7 +33,6 @@ module PludoniRspec
 
     require 'pludoni_rspec/spec_helper'
     if PludoniRspec::Config.capybara_driver == :apparition
-      puts "Apparition is deprecated for us, use Firefox"
       require 'pludoni_rspec/apparition'
     else
       require 'pludoni_rspec/capybara'
@@ -62,6 +61,9 @@ module PludoniRspec
     end
     require 'simplecov'
     SimpleCov.command_name "spec:#{Time.now.to_i}"
+    if ENV['CI']
+      SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+    end
     SimpleCov.start 'rails' do
       add_filter do |source_file|
         source_file.lines.count < 10

@@ -50,3 +50,23 @@ Optional - Loaded if companion gem is available:
     * extract_link_from(last_mail, link: 0)  - gets you the link (without protocol + host) of the first link in the last mail with a html body
   * ``include_context 'active_job_inline'``
     * all ActiveJobs will be run immediately in this group
+
+### Gitlab coverage + test report
+
+Gitlab supports inlining test-coverage + showing detailed failed/passed test statistics. This gems includes the necessary formatters. Coverage is automatically loaded in CI. For test case integration, add the RspecJunitFormatter to the rspec command in your ``bin/ci``/run command etc.
+
+e.g. using multiple rspec runs
+
+```
+  bundle exec rspec --color --tty --failure-exit-code 0 --format RspecJunitFormatter -out rspec1.xml
+  bundle exec rspec --color --tty --only-failures --format RspecJunitFormatter -out rspec2.xml
+```
+
+```yaml
+# .gitlab-ci.yml
+artifacts:
+  reports:
+    cobertura: coverage/coverage.xml
+    junit: 'rspec*.xml'
+```
+-
