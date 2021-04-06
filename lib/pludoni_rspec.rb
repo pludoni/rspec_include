@@ -20,7 +20,15 @@ module PludoniRspec
     # self.chrome_arguments = ['headless', 'disable-gpu', "window-size=1600,1200", 'no-sandbox', 'disable-dev-shm-usage', 'lang=de']
     self.capybara_timeout = ENV['CI'] == '1' ? 30 : 5
     self.firefox_arguments = ['--headless', '--window-size=1600,1200']
-    self.apparition_arguments = { js_errors: false, screen_size: [1600, 1200], window_size: [1600, 1200], browser_logger: File.open(File::NULL, 'w') }
+    self.apparition_arguments = {
+      js_errors: false,
+      screen_size: [1600, 1200],
+      window_size: [1600, 1200],
+      browser_logger: File.open(File::NULL, 'w'),
+    }
+    if ENV['CI']
+      self.apparition_arguments[:browser_options] = { 'no-sandbox' => true }
+    end
     self.capybara_driver = :apparition
   end
   def self.run
