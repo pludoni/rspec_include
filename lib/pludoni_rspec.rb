@@ -62,6 +62,7 @@ module PludoniRspec
     require 'simplecov'
     SimpleCov.command_name "spec:#{Time.now.to_i}"
     if ENV['CI']
+      require 'simplecov-cobertura'
       SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
     end
     SimpleCov.start 'rails' do
