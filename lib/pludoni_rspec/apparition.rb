@@ -24,7 +24,7 @@ RSpec.configure do |c|
       driven_by :apparition
     end
   end
-  c.around(:all, js: true) do |ex|
+  c.around(:example, js: true) do |ex|
     begin
       if !@headless and PludoniRspec::Config.wrap_js_spec_in_headless
         @headless = Headless.new(destroy_at_exit: true, reuse: true)
