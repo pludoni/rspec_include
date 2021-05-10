@@ -24,7 +24,8 @@ if defined?(ActionMailer::Base)
     end
 
     def extract_link_from(mail, link: 0)
-      link = Nokogiri.parse(mail.html_part.decoded.to_s).search('a')[link]['href']
+      body = mail.html_part.presence&.decoded || mail.body.raw_source
+      link = Nokogiri::HTML.fragment(body.to_s).search('a')[link]['href']
       URI.parse(link).tap { |i| i.host = nil; i.scheme = nil }.to_s
     end
   end
